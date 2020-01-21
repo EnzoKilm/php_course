@@ -41,6 +41,21 @@ class Promotion
     public $classAverage;
 
     /**
+     * Worst student
+     */
+    public $worstStudent;
+
+    /**
+     * Best student
+     */
+    public $bestStudent;
+
+    /**
+     * Average age of students
+     */
+    public $ageAverage;
+
+    /**
      * Constructor
      *
      * @param Array $students
@@ -168,24 +183,106 @@ class Promotion
         
         $this->classAverage = $classAverage;
     }
-    
-    // plus mauvais élève
+
+    /**
+     * Method which returns the worst student
+     *
+     * @return void
+     */
     public function worstStudent(): void
     {
-        $worstAverage = array();
-
+        $worstAverage = min($this->getStudentsAverages());
+        $worstStudent = $this->students[array_search($worstAverage,$this->getStudentsAverages())];
         
+        $this->worstStudent = $worstStudent;
     }
     
-    // meilleur élève
+    /**
+     * Method which returns the best student
+     *
+     * @return void
+     */
+    public function bestStudent(): void
+    {
+        $bestAverage = max($this->getStudentsAverages());
+        $bestStudent = $this->students[array_search($bestAverage,$this->getStudentsAverages())];
+        
+        $this->bestStudent = $bestStudent;
+    }
     
-    // moyenne d'âge
+    /**
+     * Method which returns all students ages
+     *
+     * @return Array
+     */
+    private function studentsAges(): Array
+    {
+        $studentsAges = array();
+        foreach ($this->students as $student) {
+            $studentsAges[] = $student->getAge();
+        }
+
+        return $studentsAges;
+    }
+
+    /**
+     * Method which returns the average age of students
+     *
+     * @return void
+     */
+    public function ageAverage(): void
+    {
+        $ageAverage = array_sum($this->studentsAges()) / $this->numberOfStudents;
+
+        $this->ageAverage = $ageAverage;
+    }
     
-    // âge minimum
+    /**
+     * Method which returns the minimum age
+     *
+     * @return void
+     */
+    public function minAge(): void
+    {
+        $minAge = min($this->studentsAges());
+        
+        $this->minAge = $minAge;
+    }
     
-    // âge maximum
+    /**
+     * Method which returns the maximum age
+     *
+     * @return void
+     */
+    public function maxAge(): void
+    {
+        $maxAge = max($this->studentsAges());
+        
+        $this->maxAge = $maxAge;
+    }
     
     // classer les élèves par ordre alphabétique
+    public function alphabeticalOrder(): void
+    {
+        $studentsSorted = array();
+        var_dump($this->students);
+        foreach ($this->students as $student) {
+            var_dump($student);
+        }
+        echo '<hr/>';
+
+        $studentsNames = array();
+        foreach ($this->students as $student) {
+            $studentsNames[] = $student->lastName;
+        }
+        sort($studentsNames);
+        var_dump($studentsNames);
+        echo '<hr/>';
+        
+
+        
+        
+    }
     
     // nombre d'élèves ayant un nom OU un prénom contenant la lettre "a"
     
@@ -204,6 +301,12 @@ $promo->getSexPercentage('H');
 $promo->getStudentSpecialityNumber();
 $promo->getStudentSpecialityPercentage();
 $promo->getClassAverage();
+$promo->worstStudent();
+$promo->bestStudent();
+$promo->ageAverage();
+$promo->minAge();
+$promo->maxAge();
+$promo->alphabeticalOrder();
 
 var_dump($promo);
 
