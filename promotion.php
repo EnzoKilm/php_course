@@ -56,6 +56,26 @@ class Promotion
     public $ageAverage;
 
     /**
+     *  Number of students with the letter 'a' in their first or last name
+     */
+    public $studentsAInName;
+
+    /**
+     * Number of students with the letter 'u' in their first name
+     */
+    public $studentsUInFirstName;
+
+    /**
+     * Number of students born before 19999
+     */
+    public $studentBornBefore1999;
+
+    /**
+     * Number of students born after 2001
+     */
+    public $studentBornAfter2001;
+
+    /**
      * Constructor
      *
      * @param Array $students
@@ -74,9 +94,7 @@ class Promotion
      */
     public function getStudentsNumber()
     {
-        $numberOfStudents = count($this->students);
-
-        return $numberOfStudents;
+        return count($this->students);
     }
 
     /**
@@ -156,21 +174,6 @@ class Promotion
 
         $this->studentsSpecialitiesPercentage = $studentsSpecialitiesPercentage;
     }
-    
-    /**
-     * Method which returns an array containing marks of all students
-     *
-     * @return Array
-     */
-    private function getStudentsAverages(): Array
-    {
-        $studentsAverages = array();
-        foreach ($this->students as $student) {
-            $studentsAverages[] = $student->marksAverage;
-        }
-
-        return $studentsAverages;
-    }
 
     /**
      * Method which returns the marks average of the class
@@ -209,21 +212,6 @@ class Promotion
         
         $this->bestStudent = $bestStudent;
     }
-    
-    /**
-     * Method which returns all students ages
-     *
-     * @return Array
-     */
-    private function studentsAges(): Array
-    {
-        $studentsAges = array();
-        foreach ($this->students as $student) {
-            $studentsAges[] = $student->getAge();
-        }
-
-        return $studentsAges;
-    }
 
     /**
      * Method which returns the average age of students
@@ -261,36 +249,125 @@ class Promotion
         $this->maxAge = $maxAge;
     }
     
-    // classer les élèves par ordre alphabétique
+    /**
+     * Method which sort students last names by alphabetical order
+     *
+     * @return void
+     */
     public function alphabeticalOrder(): void
     {
         $studentsSorted = array();
-        var_dump($this->students);
         foreach ($this->students as $student) {
-            var_dump($student);
+            $studentsSorted[] = $student->lastName;
+            sort($studentsSorted);
         }
-        echo '<hr/>';
-
-        $studentsNames = array();
-        foreach ($this->students as $student) {
-            $studentsNames[] = $student->lastName;
-        }
-        sort($studentsNames);
-        var_dump($studentsNames);
-        echo '<hr/>';
         
-
-        
-        
+        $this->studentsSorted = $studentsSorted;
     }
     
-    // nombre d'élèves ayant un nom OU un prénom contenant la lettre "a"
-    
-    // nombre d'élèves ayant uniquement le prénom contenant la lettre "u"
-    
-    // nombre d'élèves nés avant 1999
+    /**
+     * Method which returns the number of students with the letter 'a' in their
+     * first or last name
+     *
+     * @return void
+     */
+    public function AInName(): void
+    {
+        $studentsAInName = 0;
+        foreach ($this->students as $student) {
+            if (strpos(strtolower($student->firstName), 'a') == true) {
+                $studentsAInName += 1;
+            } else if (strpos(strtolower($student->lastName), 'a') == true) {
+                $studentsAInName += 1;
+            }
+        }
 
-    // nombre d'élèves nés après 2001
+        $this->studentsAInName = $studentsAInName;
+    }
+    
+    /**
+     * Method which returns the number of students with the letter 'u' in their
+     * first name
+     *
+     * @return void
+     */
+    public function UInFirstName(): void
+    {
+        $studentsUInFirstName = 0;
+        foreach ($this->students as $student) {
+            if (strpos(strtolower($student->firstName), 'u') == true) {
+                $studentsUInFirstName += 1;
+            }
+        }
+
+        $this->studentsUInFirstName = $studentsUInFirstName;
+    }
+    
+    /**
+     * Method which returns the number of students born before 1999
+     *
+     * @return void
+     */
+    public function bornBefore1999(): void
+    {
+        $studentBornBefore1999 = 0;
+        foreach ($this->students as $student) {
+            $dateOfBirth = date_create_from_format("d/m/Y", $student->birthDate);
+            if ($dateOfBirth->format('Y') < 1999) {
+                $studentBornBefore1999 += 1;
+            }
+        }
+
+        $this->studentBornBefore1999 = $studentBornBefore1999;
+    }
+
+    /**
+     * Method which returns the number of students born before 1999
+     *
+     * @return void
+     */
+    public function bornAfter2001(): void
+    {
+        $studentBornAfter2001 = 0;
+        foreach ($this->students as $student) {
+            $dateOfBirth = date_create_from_format("d/m/Y", $student->birthDate);
+            if ($dateOfBirth->format('Y') > 2001) {
+                $studentBornAfter2001 += 1;
+            }
+        }
+
+        $this->studentBornAfter2001 = $studentBornAfter2001;
+    }
+    
+    /**
+     * Method which returns an array containing marks of all students
+     *
+     * @return Array
+     */
+    private function getStudentsAverages(): Array
+    {
+        $studentsAverages = array();
+        foreach ($this->students as $student) {
+            $studentsAverages[] = $student->marksAverage;
+        }
+
+        return $studentsAverages;
+    }
+    
+    /**
+     * Method which returns all students ages
+     *
+     * @return Array
+     */
+    private function studentsAges(): Array
+    {
+        $studentsAges = array();
+        foreach ($this->students as $student) {
+            $studentsAges[] = $student->getAge();
+        }
+
+        return $studentsAges;
+    }
     
 }
 
@@ -307,6 +384,10 @@ $promo->ageAverage();
 $promo->minAge();
 $promo->maxAge();
 $promo->alphabeticalOrder();
+$promo->AInName();
+$promo->UInFirstName();
+$promo->bornBefore1999();
+$promo->bornAfter2001();
 
 var_dump($promo);
 
