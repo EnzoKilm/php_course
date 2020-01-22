@@ -175,7 +175,7 @@ Class Student
 
 // // On fait nos tests ici
 $st1 = new Student("Enzo", "Beauchamp", "03/09/2001", "H", "DEV", [15, 10, 18, 20]);
-$st2 = new Student("Maxime", "Barbereau", "15/05/1998", "H", "DEV", [10, 13, 7, 9]);
+$st2 = new Student("Maxime", "Barbereau", "15/05/1998", "F", "DEV", [10, 13, 7, 9]);
 $st3 = new Student("Germain", "Robard", "04/02/2001", "H", "DEV", [12, 8, 11, 14]);
 $st4 = new Student("Quentin", "Camilleri", "13/03/2001", "H", "OPS", [18, 16, 13, 14]);
 // echo '<pre><code>';

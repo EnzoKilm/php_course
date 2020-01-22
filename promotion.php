@@ -149,12 +149,12 @@ class Promotion
 
         $specialitiesIndexes = array_keys($this->studentsSpecialitiesNumber);
 
-        $specialitiesPercentage = array();
+        $studentsSpecialitiesPercentage = array();
         for ($i = 0; $i < count($this->studentsSpecialitiesNumber); $i++) {
-            $specialitiesPercentage[$specialitiesIndexes[$i]] = $this->studentsSpecialitiesNumber[$specialitiesIndexes[$i]]/$this->numberOfStudents*100;
+            $studentsSpecialitiesPercentage[$specialitiesIndexes[$i]] = $this->studentsSpecialitiesNumber[$specialitiesIndexes[$i]]/$this->numberOfStudents*100;
         }
 
-        $this->specialitiesPercentage = $specialitiesPercentage;
+        $this->studentsSpecialitiesPercentage = $studentsSpecialitiesPercentage;
     }
     
     /**
